@@ -24,6 +24,8 @@ app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+var seq = require('sequelize');
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
 	next(createError(404));
