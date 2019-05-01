@@ -5,13 +5,20 @@
 		<script language="javascript" src="js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="css/bootstrap.min.css"/>
 	</head>
-	<body>
-		<h1><%= title %></h1>
-		<p>Welcome, <%= login %></p>
-		<p>Page available for authenticated users only</p>
 
-		<form action="/signout" method="POST">
-			<button type="submit" class="btn btn-primary">sign out</button>
-		</form>
+	<body>
+		<div class="row">
+			<div class="col-sm-4"></div>
+			<div class="col-sm-4">
+				<h1><%= title %></h1>
+				<p>Welcome, <%= login %></p>
+				<p>Page available for authenticated users only</p>
+		
+				<form action="/signout" method="POST">
+					<button type="submit" class="btn btn-primary">sign out</button>
+				</form>
+			</div>
+			<div class="col-sm-4"></div>
+		</div>
 	</body>
 </html>

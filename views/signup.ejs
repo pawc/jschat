@@ -9,6 +9,7 @@
             <div class="col-sm-5"></div>
             <div class="col-sm-2">
                 <h1>Sign up</h1>
+                <p class="text-danger"><%= message%></p>
                 <form action="/signup" method="POST">
                     <div class="form-group">
                         <label for="login">Login:</label>
@@ -20,6 +21,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
+                <p><a href='/signin'>Already registered? Sign in!</a></p>
             </div>
             <div class="col-sm-5"></div>
         </div>
