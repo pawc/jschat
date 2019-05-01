@@ -26,7 +26,7 @@ const User = userModel(seq, sequelize);
 const register = ((login, password) => {
 
     var salt = crypto.generateSalt(16);
-    var newPassword = crypto.saltHashPassword(password, salt);
+    var newPassword = crypto.sha512(password, salt);
     User.create({
         login: login,
         password: newPassword.passwordHash,
@@ -35,12 +35,35 @@ const register = ((login, password) => {
 
 })
 
+const authenticate = ((login, password, result) => {
+    User.findOne({
+        where: {
+            login : login
+        }
+    })
+    .then(resultUser => {
+        if(!resultUser){
+            result(false);
+        }
+        else{
+            var computed = crypto.sha512(password, resultUser.salt);
+        
+            if(computed.passwordHash === resultUser.password){
+                result(true);
+            }
+            else{
+                result(false);
+            }
+        }
+    })
+})
+
 const populate = (() => {
     seq.sync({force: true})
     .then( () => {
     
         var salt = crypto.generateSalt(16);
-        var password = crypto.saltHashPassword('admin', salt);
+        var password = crypto.sha512('admin', salt);
         User.create({
             login: 'admin',
             password: password.passwordHash,
@@ -53,5 +76,6 @@ const populate = (() => {
 module.exports = {
     User,
     populate,
-    register
+    register,
+    authenticate
 }

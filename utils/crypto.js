@@ -23,5 +23,5 @@ function saltHashPassword(userpassword) {
 
 module.exports = {
     generateSalt,
-    saltHashPassword
+    sha512
 }
