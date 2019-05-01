@@ -23,6 +23,18 @@ const seq = new sequelize('pbdb', 'pbuser', 'pbpassword', {
 
 const User = userModel(seq, sequelize);
 
+const register = ((login, password) => {
+
+    var salt = crypto.generateSalt(16);
+    var newPassword = crypto.saltHashPassword(password, salt);
+    User.create({
+        login: login,
+        password: newPassword.passwordHash,
+        salt: salt
+    })
+
+})
+
 const populate = (() => {
     seq.sync({force: true})
     .then( () => {
@@ -30,7 +42,6 @@ const populate = (() => {
         var salt = crypto.generateSalt(16);
         var password = crypto.saltHashPassword('admin', salt);
         User.create({
-            id: 1,
             login: 'admin',
             password: password.passwordHash,
             salt: salt
@@ -39,8 +50,8 @@ const populate = (() => {
     });
 })
 
-
 module.exports = {
     User,
-    populate
+    populate,
+    register
 }
