@@ -20,7 +20,9 @@ const signinPost = ((req, res, next) => {
     seq.authenticate(login, password, (result) => {
 
         if(result){
-            res.render('index', {title: 'signed in successfully'});
+            req.session.loggedIn = true;
+            req.session.login = login;
+            res.redirect('/');
         }
         else{
             res.locals.message = 'Invalid authentication.';
