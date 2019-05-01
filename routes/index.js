@@ -19,7 +19,7 @@ router.post('/signup', signup.signupPost);
 router.get('/signin', signin.signinGet);
 router.post('/signin', signin.signinPost);
 
-router.post('/signout', signout.signoutPost);
+router.get('/signout', signout.signoutGet);
 
 function checkLoggedIn(req, res, next){
     if(req.session.loggedIn){

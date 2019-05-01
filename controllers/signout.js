@@ -1,9 +1,9 @@
-const signoutPost = ((req, res, next) => {
+const signoutGet = ((req, res, next) => {
     req.session.loggedIn = false;
     req.session.login = null;
     res.redirect('/signin');
 });
 
 module.exports = {
-    signoutPost
+    signoutGet
 }
