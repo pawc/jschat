@@ -23,14 +23,29 @@ const seq = new sequelize('pbdb', 'pbuser', 'pbpassword', {
 
 const User = userModel(seq, sequelize);
 
-const register = ((login, password) => {
+const register = ((login, password, result) => {
 
-    var salt = crypto.generateSalt(16);
-    var newPassword = crypto.sha512(password, salt);
-    User.create({
-        login: login,
-        password: newPassword.passwordHash,
-        salt: salt
+    User.findOne({
+        where: {
+            login : login
+        }
+    })
+    .then((resultUser) => {
+        if(resultUser){
+            result(false);
+        }
+        else{
+            var salt = crypto.generateSalt(16);
+            var newPassword = crypto.sha512(password, salt);
+            User.create({
+                login: login,
+                password: newPassword.passwordHash,
+                salt: salt
+            })
+            .then(() => {
+                result(true);
+            })
+        }
     })
 
 })

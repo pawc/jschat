@@ -17,8 +17,14 @@ const signupPost = ((req, res, next) => {
         res.render('error');*/
     }
     else{      
-        seq.register(login, password);
-        res.render('signin', {message: ''}); 
+        seq.register(login, password, (result) => {
+            if(result){
+                res.render('signin', {message: ''}); 
+            }
+            else{
+                res.render('signup', {message: 'User already exists.'}); 
+            }
+        });
     }
 
 });
