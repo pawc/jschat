@@ -50,5 +50,6 @@ const populate = (() => {
 
 module.exports = {
     User,
+    Message,
     populate
 }

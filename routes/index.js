@@ -5,6 +5,7 @@ var router = express.Router();
 var signup = require('../controllers/signup.js');
 var signin = require('../controllers/signin.js');
 var signout = require('../controllers/signout');
+var message = require('../controllers/message.js');
 
 router.get('/', checkLoggedIn, function(req, res, next) {
 	res.render('index', { 
@@ -12,6 +13,8 @@ router.get('/', checkLoggedIn, function(req, res, next) {
 		   login: req.session.login
 	});
 });
+
+router.get('/getMessages', checkLoggedIn, message.getMessages);
 
 router.get('/signup', signup.signupGet);
 router.post('/signup', signup.signupPost);
