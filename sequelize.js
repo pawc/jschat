@@ -1,6 +1,7 @@
 var sequelize = require('sequelize');
 
-var userModel = require('./models/user.js')
+var userModel = require('./models/user.js');
+var messageModel = require('./models/message.js');
 var crypto = require('./utils/crypto.js');
 
 const seq = new sequelize('pbdb', 'pbuser', 'pbpassword', {
@@ -22,6 +23,9 @@ const seq = new sequelize('pbdb', 'pbuser', 'pbpassword', {
 });
 
 const User = userModel(seq, sequelize);
+const Message = messageModel(seq, sequelize);
+
+User.hasMany(Message, {foreignKeyConstraint: true});
 
 const register = ((login, password, result) => {
 
@@ -83,6 +87,12 @@ const populate = (() => {
             login: 'admin',
             password: password.passwordHash,
             salt: salt
+        });
+
+        Message.create({
+            text: 'sample message',
+            date: new Date(),
+            userId: 1
         })
     
     });
