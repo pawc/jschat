@@ -25,7 +25,8 @@ const seq = new sequelize('pbdb', 'pbuser', 'pbpassword', {
 const User = userModel(seq, sequelize);
 const Message = messageModel(seq, sequelize);
 
-User.hasMany(Message, {foreignKeyConstraint: true});
+Message.belongsTo(User, {foreignKeyConstraint: true});
+//User.hasMany(Message, {foreignKeyConstraint: true});
 
 const populate = (() => {
     seq.sync({force: true})
