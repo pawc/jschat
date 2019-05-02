@@ -27,56 +27,6 @@ const Message = messageModel(seq, sequelize);
 
 User.hasMany(Message, {foreignKeyConstraint: true});
 
-const register = ((login, password, result) => {
-
-    User.findOne({
-        where: {
-            login : login
-        }
-    })
-    .then((resultUser) => {
-        if(resultUser){
-            result(false);
-        }
-        else{
-            var salt = crypto.generateSalt(16);
-            var newPassword = crypto.sha512(password, salt);
-            User.create({
-                login: login,
-                password: newPassword.passwordHash,
-                salt: salt
-            })
-            .then(() => {
-                result(true);
-            })
-        }
-    })
-
-})
-
-const authenticate = ((login, password, result) => {
-    User.findOne({
-        where: {
-            login : login
-        }
-    })
-    .then(resultUser => {
-        if(!resultUser){
-            result(false);
-        }
-        else{
-            var computed = crypto.sha512(password, resultUser.salt);
-        
-            if(computed.passwordHash === resultUser.password){
-                result(true);
-            }
-            else{
-                result(false);
-            }
-        }
-    })
-})
-
 const populate = (() => {
     seq.sync({force: true})
     .then( () => {
@@ -100,7 +50,5 @@ const populate = (() => {
 
 module.exports = {
     User,
-    populate,
-    register,
-    authenticate
+    populate
 }

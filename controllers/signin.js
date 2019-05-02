@@ -1,4 +1,5 @@
 var seq = require('../sequelize.js');
+var crypto = require('../utils/crypto.js');
 var createError = require('http-errors');
 
 const signinGet = ((req, res, next) => {
@@ -18,7 +19,7 @@ const signinPost = ((req, res, next) => {
         return;
     }
 
-    seq.authenticate(login, password, (result) => {
+    authenticate(login, password, (result) => {
 
         if(result){
             req.session.loggedIn = true;
@@ -36,6 +37,29 @@ const signinPost = ((req, res, next) => {
     })
 
 });
+
+const authenticate = ((login, password, result) => {
+    seq.User.findOne({
+        where: {
+            login : login
+        }
+    })
+    .then(resultUser => {
+        if(!resultUser){
+            result(false);
+        }
+        else{
+            var computed = crypto.sha512(password, resultUser.salt);
+        
+            if(computed.passwordHash === resultUser.password){
+                result(true);
+            }
+            else{
+                result(false);
+            }
+        }
+    })
+})
 
 module.exports = {
     signinGet,

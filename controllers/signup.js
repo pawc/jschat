@@ -1,4 +1,5 @@
 var seq = require('../sequelize.js');
+var crypto = require('../utils/crypto.js');
 var createError = require('http-errors');
 
 const signupGet = ((req, res, next) => {
@@ -17,7 +18,7 @@ const signupPost = ((req, res, next) => {
         res.render('error');*/
     }
     else{      
-        seq.register(login, password, (result) => {
+        register(login, password, (result) => {
             if(result){
                 res.render('signin', {message: ''}); 
             }
@@ -28,6 +29,33 @@ const signupPost = ((req, res, next) => {
     }
 
 });
+
+const register = ((login, password, result) => {
+
+    seq.User.findOne({
+        where: {
+            login : login
+        }
+    })
+    .then((resultUser) => {
+        if(resultUser){
+            result(false);
+        }
+        else{
+            var salt = crypto.generateSalt(16);
+            var newPassword = crypto.sha512(password, salt);
+            seq.User.create({
+                login: login,
+                password: newPassword.passwordHash,
+                salt: salt
+            })
+            .then(() => {
+                result(true);
+            })
+        }
+    })
+
+})
 
 module.exports = {
     signupGet,
