@@ -26,10 +26,10 @@ router.get('/signout', signout.signoutGet);
 
 function checkLoggedIn(req, res, next){
     if(req.session.loggedIn){
-        next(); //If session exists, proceed to page
+    	next(); //If session exists, proceed to page
     } else {
-      //next(createError(403));
-      res.redirect('/signin');
+		//next(createError(403));
+		res.redirect('/signin');
     }
 }
 
