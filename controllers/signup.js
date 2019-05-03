@@ -49,7 +49,10 @@ const register = ((login, password, result) => {
                 password: newPassword.passwordHash,
                 salt: salt
             })
-            .then(() => {
+            .then(newUser => {
+                seq.UserData.create({
+                    userId: newUser.id
+                });
                 result(true);
             })
         }
