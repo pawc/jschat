@@ -45,6 +45,12 @@ const populate = (() => {
             date: new Date(),
             userId: 1
         })
+
+        Message.create({
+            text: 'another message',
+            date: new Date(),
+            userId: 1
+        })
     
     });
 })
