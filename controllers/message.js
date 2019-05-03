@@ -24,6 +24,21 @@ const getMessages = ((req, res, next) => {
 
 });
 
+const sendMessage = ((req, res, next) => {
+    var message = req.body.message;
+    var userId = req.session.userId;
+
+    seq.Message.create({
+        text: message,
+        date: new Date(),
+        userId: userId
+    })
+    .then(() => {
+        res.redirect('/');
+    })
+})
+
 module.exports = {
-    getMessages
+    getMessages,
+    sendMessage
 }

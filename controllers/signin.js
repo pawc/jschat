@@ -24,6 +24,7 @@ const signinPost = ((req, res, next) => {
         if(result){
             req.session.loggedIn = true;
             req.session.login = login;
+            req.session.userId = result;
             res.redirect('/');
         }
         else{
@@ -46,16 +47,16 @@ const authenticate = ((login, password, result) => {
     })
     .then(resultUser => {
         if(!resultUser){
-            result(false);
+            result(null);
         }
         else{
             var computed = crypto.sha512(password, resultUser.salt);
         
             if(computed.passwordHash === resultUser.password){
-                result(true);
+                result(resultUser.id);
             }
             else{
-                result(false);
+                result(null);
             }
         }
     })
