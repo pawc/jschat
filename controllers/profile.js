@@ -12,7 +12,8 @@ const getProfile = ((req, res, next) => {
         res.render('profile', {
             login: req.session.login,
             name: userData.name,
-            city: userData.city
+            city: userData.city,
+            message: ''
         });
     
     })    
@@ -20,6 +21,32 @@ const getProfile = ((req, res, next) => {
 
 });
 
+const updateProfile = ((req, res, next) => {
+
+    seq.UserData.update({
+        name: req.body.name,
+        city: req.body.city
+    },
+    {
+        returning: true,
+        where: {
+            userId: req.session.userId
+        }
+    })
+    .then((rowsUpdated) => {
+        var message = 'profile updated';
+        if(rowsUpdated != ',1') message = 'problems updating your profile. Try again.';
+        res.render('profile', {
+            login: req.session.login,
+            name: req.body.name,
+            city: req.body.city,
+            message: message
+        });
+    })
+
+})
+
 module.exports = {
-    getProfile
+    getProfile,
+    updateProfile
 }
