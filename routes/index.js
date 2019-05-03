@@ -6,15 +6,16 @@ var signup = require('../controllers/signup.js');
 var signin = require('../controllers/signin.js');
 var signout = require('../controllers/signout');
 var message = require('../controllers/message.js');
+var profile = require('../controllers/profile.js');
 
 router.get('/', checkLoggedIn, function(req, res, next) {
-	res.render('index', { 
-		   title: 'Express',
+	res.render('board', {
 		   login: req.session.login
 	});
 });
 
 router.get('/getMessages', checkLoggedIn, message.getMessages);
+router.get('/profile', checkLoggedIn, profile.getProfile);
 
 router.get('/signup', signup.signupGet);
 router.post('/signup', signup.signupPost);

@@ -1,8 +1,13 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.jumbotron {
+	height: 170px;
+	margin-bottom: 0;
 }
 
-a {
-  color: #00B7FF;
+.fakeimg {
+	height: 200px;
+	background: #aaa;
+}
+
+.container {
+	margin-top: 30px;
 }
