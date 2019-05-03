@@ -16,7 +16,7 @@ const getMessages = ((req, res, next) => {
            var obj = new Object();
            obj.login = messages[i].user.login;
            obj.text = messages[i].text;
-           obj.date = dateFormat(messages[i].date, 'yyyy-mm-dd');
+           obj.date = dateFormat(messages[i].date, 'yyyy-mm-dd HH:MM');
            result.push(obj);
         }
         res.send(result);

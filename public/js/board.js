@@ -4,11 +4,9 @@ $(document).ready(() => {
         url: '/getMessages',
         success : (result) => {
             $.each(result, (index, obj) => {
-                $('#messageBoard').append('<tr>'+
-                    '<td>'+obj.date+'</td>'+
-                    '<td>'+obj.login+'</td>'+
-                    '<td>'+obj.text+'</td>'+
-                '</td>');
+                $('#messageBoard').append('<div class="row">('+
+                    obj.date+') &nbsp;<b>'+obj.login+': </b>&nbsp;'+obj.text+
+                '</div>');
             })
         }
     })
