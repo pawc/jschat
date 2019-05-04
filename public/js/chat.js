@@ -16,6 +16,7 @@ $(document).ready(() => {
             login: myLogin,
             message: message
         });
+        $('#message').val('');
     });
 
 });

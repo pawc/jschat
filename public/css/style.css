@@ -1,11 +1,11 @@
+body {
+	background-color: #f6f7fa;
+}
+
 .jumbotron {
 	height: 170px;
 	margin-bottom: 0;
-}
-
-.fakeimg {
-	height: 200px;
-	background: #aaa;
+	background-image: url("../../public/img/background.png");
 }
 
 .container {
