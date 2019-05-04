@@ -9,7 +9,7 @@ var message = require('../controllers/message.js');
 var profile = require('../controllers/profile.js');
 
 router.get('/', checkLoggedIn, function(req, res, next) {
-	res.render('board', {
+	res.render('chat', {
 		   login: req.session.login
 	});
 });
