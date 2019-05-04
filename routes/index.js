@@ -15,7 +15,7 @@ router.get('/', checkLoggedIn, function(req, res, next) {
 });
 
 router.get('/getMessages', checkLoggedIn, message.getMessages);
-router.post('/sendMessage', checkLoggedIn, message.sendMessage);
+router.post('/sendMessage', checkLoggedIn, message.sendMessage)
 
 router.get('/profile', checkLoggedIn, profile.getProfile);
 router.post('/updateProfile', checkLoggedIn, profile.updateProfile);
