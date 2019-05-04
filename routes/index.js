@@ -18,6 +18,7 @@ router.get('/getMessages', checkLoggedIn, message.getMessages);
 
 router.get('/profile', checkLoggedIn, profile.getProfile);
 router.post('/updateProfile', checkLoggedIn, profile.updateProfile);
+router.post('/changePassword', checkLoggedIn, profile.changePassword);
 
 router.get('/signup', signup.signupGet);
 router.post('/signup', signup.signupPost);
