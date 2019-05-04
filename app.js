@@ -3,7 +3,7 @@ var createError = require('http-errors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var session = require('express-session');
+var sharedSession = require('express-socket.io-session');
 var dateFormat = require('dateformat');
 var seq = require('./sequelize.js');
 
@@ -13,6 +13,18 @@ var io = require('socket.io')(server);
 
 server.listen(3000);
 
+var crypto = require('./utils/crypto.js');
+
+var session = require('express-session')({
+	secret: crypto.generateSalt(16),
+	resave: false,
+    saveUninitialized: false
+});
+
+app.use(session);
+
+io.use(sharedSession(session, {autoSave: true}));
+
 io.on('connection', function(client) {
     /*console.log('Client connected...');
     
@@ -21,7 +33,11 @@ io.on('connection', function(client) {
 	});*/
 
 	client.on('newMessage', (data) => {
-
+		console.log('message from userId: '+client.handshake.session.userId);
+		seq.Message.create({
+			userId: client.handshake.session.userId,
+			text: data.message
+		})
 		data.date = dateFormat(new Date(), 'yyyy-mm-dd HH:MM');
 		client.emit('newMessage', data);
     	client.broadcast.emit('newMessage', data);
@@ -47,11 +63,6 @@ app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 app.use('/popper', express.static(__dirname + '/node_modules/popper.js/dist/'));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'));
 app.use('/socket.io-client', express.static(__dirname + '/node_modules/socket.io-client/dist/'));
-
-var crypto = require('./utils/crypto.js');
-app.use(session({
-	secret: crypto.generateSalt(16)
-}));
 
 app.use('/', indexRouter);
 

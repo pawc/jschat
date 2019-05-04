@@ -1,4 +1,3 @@
-var app = require('../app.js');
 var seq = require('../sequelize.js');
 var dateFormat = require('dateformat');
 
@@ -25,19 +24,6 @@ const getMessages = ((req, res, next) => {
 
 });
 
-const sendMessage = ((req, res, next) => {
-
-    seq.Message.create({
-        text: req.body.message,
-        date: new Date(),
-        userId: req.session.userId
-    })
-    .then(() => {
-        res.redirect('/');
-    })
-})
-
 module.exports = {
-    getMessages,
-    sendMessage
+    getMessages
 }

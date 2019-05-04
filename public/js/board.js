@@ -10,7 +10,7 @@ $(document).ready(() => {
     socket.on('newMessage', addMessage);
 
     $('#messageForm').submit(function(e){
-        //e.preventDefault();
+        e.preventDefault();
         var message = $('#message').val();
         socket.emit('newMessage', {
             login: myLogin,
