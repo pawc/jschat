@@ -7,6 +7,7 @@ var signin = require('../controllers/signin.js');
 var signout = require('../controllers/signout');
 var message = require('../controllers/message.js');
 var profile = require('../controllers/profile.js');
+var users = require('../controllers/users');
 
 router.get('/', checkLoggedIn, function(req, res, next) {
 	res.render('chat', {
@@ -19,6 +20,8 @@ router.get('/getMessages', checkLoggedIn, message.getMessages);
 router.get('/profile', checkLoggedIn, profile.getProfile);
 router.post('/updateProfile', checkLoggedIn, profile.updateProfile);
 router.post('/changePassword', checkLoggedIn, profile.changePassword);
+
+router.get('/users', checkLoggedIn, users.getUsers);
 
 router.get('/signup', signup.signupGet);
 router.post('/signup', signup.signupPost);
