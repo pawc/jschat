@@ -11,5 +11,7 @@ module.exports = (sequelize, type) => {
         },
         password: type.STRING,
         salt: type.STRING
-    })
+    },
+	{rowFormat: 'DYNAMIC'}
+	)
 }
