@@ -22,6 +22,7 @@ router.post('/updateProfile', checkLoggedIn, profile.updateProfile);
 router.post('/changePassword', checkLoggedIn, profile.changePassword);
 
 router.get('/users', checkLoggedIn, users.getUsers);
+router.get('/getAllUsers', checkLoggedIn, users.getAllUsers);
 
 router.get('/signup', signup.signupGet);
 router.post('/signup', signup.signupPost);

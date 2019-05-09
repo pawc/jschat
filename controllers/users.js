@@ -1,6 +1,12 @@
 var seq = require('../sequelize');
 
 const getUsers = ((req, res, next) => {
+    res.render('users', {
+        login: req.session.login
+    });
+});
+
+const getAllUsers = ((req, res, next) => {
     seq.UserData.findAll({
         attributes: ['name', 'city'],
         include: {
@@ -22,5 +28,6 @@ const getUsers = ((req, res, next) => {
 });
 
 module.exports = {
-    getUsers
+    getUsers,
+    getAllUsers
 }

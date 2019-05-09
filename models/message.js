@@ -8,6 +8,7 @@ module.exports = (sequelize, type) => {
         text: type.STRING,
         date: type.DATE,
 		},
-		{rowFormat: 'DYNAMIC'}
-    )
+    {
+        rowFormat: 'DYNAMIC'
+    })
 }
