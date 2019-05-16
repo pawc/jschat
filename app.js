@@ -26,11 +26,10 @@ app.use(session);
 io.use(sharedSession(session, {autoSave: true}));
 
 io.on('connection', function(client) {
-    /*console.log('Client connected...');
     
     client.on('join', function(data) {
-    	console.log(data);
-	});*/
+		console.log('Client '+client.handshake.session.login+' logged in.');
+	});
 
 	client.on('newMessage', (data) => {
 		console.log('message from userId: '+client.handshake.session.userId);

@@ -3,9 +3,10 @@ $(document).ready(() => {
     getMessages();
 
     var socket = io.connect('http://localhost:3000');
-	/*socket.on('connect', function(data) {
-    	socket.emit('join', 'Hello from client');
-    });*/
+    
+    socket.on('connect', function(data){
+    	socket.emit('join');
+    });
 
     socket.on('newMessage', addMessage);
 
