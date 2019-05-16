@@ -9,9 +9,15 @@ var message = require('../controllers/message.js');
 var profile = require('../controllers/profile.js');
 var users = require('../controllers/users');
 
-router.get('/', checkLoggedIn, function(req, res, next) {
+router.get('/', checkLoggedIn, (req, res, next) => {
+	res.render('index', {
+		login: req.session.login
+	});
+})
+
+router.get('/chat', checkLoggedIn, (req, res, next) => {
 	res.render('chat', {
-		   login: req.session.login
+		login: req.session.login
 	});
 });
 
