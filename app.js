@@ -11,6 +11,8 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
+var usersInChat = new Set([]);
+
 server.listen(3000);
 
 var crypto = require('./utils/crypto.js');
@@ -25,11 +27,19 @@ app.use(session);
 
 io.use(sharedSession(session, {autoSave: true}));
 
-io.on('connection', function(client) {
+io.on('connection', function(client){
     
-    client.on('join', function(data) {
+    client.on('join', function(data){
 		console.log('Client '+client.handshake.session.login+' logged in.');
+		usersInChat.add(client.handshake.session.login);
+		console.log('Users chatting: '+Array.from(usersInChat).join(' '));
 	});
+
+	client.on('disconnect', function(data){
+		console.log('Client '+client.handshake.session.login+' left.');
+		usersInChat.delete(client.handshake.session.login);
+		console.log('Users chatting: '+Array.from(usersInChat).join(' '));
+	})
 
 	client.on('newMessage', (data) => {
 		console.log('message from userId: '+client.handshake.session.userId);
