@@ -33,14 +33,21 @@ io.on('connection', function(client){
 		console.log('Client '+client.handshake.session.login+' logged in.');
 		usersInChat.add(client.handshake.session.login);
 		console.log('Users chatting: '+Array.from(usersInChat).join(' '));
-		client.broadcast.emit('user', client.handshake.session.login+' joined the chat.');
+		var o = new Object();
+		o.message = client.handshake.session.login+' joined the chat.';
+		o.users = Array.from(usersInChat).join(',');
+		client.emit('user', o);
+		client.broadcast.emit('user', o);
 	});
 
 	client.on('disconnect', function(data){
 		console.log('Client '+client.handshake.session.login+' left.');
 		usersInChat.delete(client.handshake.session.login);
 		console.log('Users chatting: '+Array.from(usersInChat).join(' '));
-		client.broadcast.emit('user', client.handshake.session.login+' left the chat');
+		var o = new Object();
+		o.message = client.handshake.session.login+' left the chat.';
+		o.users = Array.from(usersInChat).join(',');
+		client.broadcast.emit('user', o);
 	})
 
 	client.on('newMessage', (data) => {

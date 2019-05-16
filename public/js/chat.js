@@ -48,5 +48,15 @@ function addMessage(data){
 }
 
 function userJoinedLeft(data){
-    $('#messageBoard').append('<div class="row"><i>'+data+'</i></div>');
+    $('#messageBoard').append('<div class="row"><i>'+data.message+'</i></div>');
+    updateUsersList(data.users);
+}
+
+function updateUsersList(data){
+    var tab = data.split(',');
+    $('#usersList').empty();
+
+    for(var i=0; i < tab.length; i++){
+        $('#usersList').append('<li class="list-group-item">'+tab[i]+'</li>')
+    }
 }
