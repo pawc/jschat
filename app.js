@@ -33,12 +33,14 @@ io.on('connection', function(client){
 		console.log('Client '+client.handshake.session.login+' logged in.');
 		usersInChat.add(client.handshake.session.login);
 		console.log('Users chatting: '+Array.from(usersInChat).join(' '));
+		client.broadcast.emit('user', client.handshake.session.login+' joined the chat.');
 	});
 
 	client.on('disconnect', function(data){
 		console.log('Client '+client.handshake.session.login+' left.');
 		usersInChat.delete(client.handshake.session.login);
 		console.log('Users chatting: '+Array.from(usersInChat).join(' '));
+		client.broadcast.emit('user', client.handshake.session.login+' left the chat');
 	})
 
 	client.on('newMessage', (data) => {

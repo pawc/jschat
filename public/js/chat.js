@@ -10,6 +10,8 @@ $(document).ready(() => {
 
     socket.on('newMessage', addMessage);
 
+    socket.on('user', userJoinedLeft);
+
     $('#messageForm').submit(function(e){
         e.preventDefault();
         var message = $('#message').val();
@@ -43,4 +45,8 @@ function addMessage(data){
         ') &nbsp;<b>'+data.login+': </b>&nbsp;'+data.message+
     '</div>');
 
+}
+
+function userJoinedLeft(data){
+    $('#messageBoard').append('<div class="row"><i>'+data+'</i></div>');
 }
