@@ -54,7 +54,8 @@ io.on('connection', function(client){
 		console.log('message from userId: '+client.handshake.session.userId);
 		seq.Message.create({
 			userId: client.handshake.session.userId,
-			text: data.message
+			text: data.message,
+			date: new Date()
 		})
 		data.date = dateFormat(new Date(), 'yyyy-mm-dd HH:MM');
 		client.emit('newMessage', data);
