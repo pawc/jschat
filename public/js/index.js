@@ -1,5 +1,7 @@
 $(document).ready(() => {
 
+    if(myLogin == null) $("#content").attr("src", "/signup");
+
     $("#usersLink").click(function(event){
         event.preventDefault(); 
         $("#content").attr("src", "/users");

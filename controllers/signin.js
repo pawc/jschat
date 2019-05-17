@@ -25,7 +25,7 @@ const signinPost = ((req, res, next) => {
             req.session.loggedIn = true;
             req.session.login = login;
             req.session.userId = result;
-            res.redirect('/');
+            res.redirect('/chat');
         }
         else{
             res.render('signin', {message: 'Invalid user or password. Try again.'});

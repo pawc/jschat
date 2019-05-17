@@ -2,7 +2,7 @@ const signoutGet = ((req, res, next) => {
     req.session.loggedIn = false;
     req.session.login = null;
     req.session.userId = null;
-    res.redirect('/signin');
+    res.redirect('/');
 });
 
 module.exports = {
