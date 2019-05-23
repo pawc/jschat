@@ -16,9 +16,7 @@ const getProfile = ((req, res, next) => {
             city: userData.city,
             message: ''
         });
-    
     })    
-
 
 });
 

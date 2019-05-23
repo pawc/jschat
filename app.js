@@ -68,6 +68,7 @@ io.on('connection', function(client){
 });
 
 var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 
 seq.populate();
 
@@ -87,6 +88,7 @@ app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'
 app.use('/socket.io-client', express.static(__dirname + '/node_modules/socket.io-client/dist/'));
 
 app.use('/', indexRouter);
+app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

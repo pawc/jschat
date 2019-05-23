@@ -30,9 +30,11 @@ function getMessages(){
         url: '/getMessages',
         success : (result) => {
             $.each(result, (index, obj) => {
-                $('#messageBoard').append('<div class="row">('+
-                    obj.date+') &nbsp;<b>'+obj.login+': </b>&nbsp;'+obj.text+
-                '</div>');
+                $('#messageBoard').append('<div class="row">('
+                    +obj.date+') &nbsp;<b>'
+                    +'<a href="/users/'+obj.login+'">'+obj.login+'</a>: </b>&nbsp;'
+                    +obj.text+'</div>'
+                );
             })
         }
     })
@@ -41,9 +43,11 @@ function getMessages(){
 
 function addMessage(data){
 
-    $('#messageBoard').append('<div class="row">('+data.date+
-        ') &nbsp;<b>'+data.login+': </b>&nbsp;'+data.message+
-    '</div>');
+    $('#messageBoard').append('<div class="row">('
+        +data.date+') &nbsp;<b>'
+        +'<a href="/users/'+data.login+'">'+data.login+'</a>: </b>&nbsp;'
+        +data.message+'</div>'
+    );
 
 }
 
