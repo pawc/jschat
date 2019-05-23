@@ -20,7 +20,10 @@ var crypto = require('./utils/crypto.js');
 var session = require('express-session')({
 	secret: crypto.generateSalt(16),
 	resave: false,
-    saveUninitialized: false
+	saveUninitialized: false,
+	cookie: {
+		maxAge: 60000
+	}
 });
 
 app.use(session);
