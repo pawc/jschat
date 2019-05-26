@@ -1,13 +1,26 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-
+	<title>pawc.pl</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="public/css/style.css">
+	<script src="jquery/jquery.min.js"></script>
+	<script src="popper/popper.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
 </head>
-
 <body>
-    <p>login: <%= login%></p>
-    <p>name: <%= name%></p>
-    <p>city: <%= city%></p>
-</body>
 
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<h2>Profile details</h2>
+	            <h4><label class="label label-default col-sm-2" for="name">Login: <%= login %></label></h4>	
+                <h4><label class="clabel label-default col-sm-2" for="name">Name: <%= name %></label></h4>
+                <h4><label class="label col-sm-2" for="name">City: <%= city %></label></h4>		
+			</div>
+		</div>
+	</div>
+</body>
 </html>
