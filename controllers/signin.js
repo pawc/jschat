@@ -25,6 +25,10 @@ const signinPost = ((req, res, next) => {
             req.session.loggedIn = true;
             req.session.login = login;
             req.session.userId = result;
+            seq.SignInLog.create({
+                userId: result,
+                date : new Date()
+            });
             res.redirect('/chat');
         }
         else{

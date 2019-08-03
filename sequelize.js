@@ -3,6 +3,7 @@ var sequelize = require('sequelize');
 var userModel = require('./models/user.js');
 var messageModel = require('./models/message.js');
 var userDataModel = require('./models/userData.js');
+var signInLogModel = require('./models/signInLog');
 var crypto = require('./utils/crypto.js');
 
 const seq = new sequelize('pbdb', 'pbuser', 'pbpassword', {
@@ -26,9 +27,11 @@ const seq = new sequelize('pbdb', 'pbuser', 'pbpassword', {
 const User = userModel(seq, sequelize);
 const Message = messageModel(seq, sequelize);
 const UserData = userDataModel(seq, sequelize);
+const SignInLog = signInLogModel(seq, sequelize);
 
 Message.belongsTo(User, {foreignKeyConstraint: true});
 UserData.belongsTo(User, {foreignKeyConstraint: true});
+//SignInLog.hasMany(User, {foreignKeyConstraint: true});
 //User.hasMany(Message, {foreignKeyConstraint: true});
 
 const populate = (() => {
@@ -69,5 +72,6 @@ module.exports = {
     User,
     Message,
     UserData,
+    SignInLog,
     populate
 }
