@@ -53,6 +53,10 @@ const register = ((login, password, result) => {
                 seq.UserData.create({
                     userId: newUser.id
                 });
+                seq.SignInLog.create({
+                    userId: newUser.id,
+                    date: new Date()
+                })
                 result(true);
             })
         }

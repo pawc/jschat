@@ -86,6 +86,16 @@ const populate = (() => {
             date: new Date(),
             userId: 2
         })
+
+        SignInLog.create({
+            userId: 1,
+            date: new Date()
+        })
+
+        SignInLog.create({
+            userId: 2,
+            date: new Date()
+        })
     
     });
 })
