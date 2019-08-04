@@ -1,5 +1,5 @@
 var seq = require('../sequelize');
-//var sequelize = require('sequelize');
+var sequelize = require('sequelize');
 
 const getUsers = ((req, res, next) => {
     res.render('users', {
@@ -8,29 +8,23 @@ const getUsers = ((req, res, next) => {
 });
 
 const getAllUsers = ((req, res, next) => {
-    seq.UserData.findAll({
-        attributes: ['name', 'city'],
+    seq.SignInLog.findAll({
+        attributes: ['userDatumId', [sequelize.fn('max', sequelize.col('date')), 'lastSignIn']],
+        group: ['userDatumId'],
+        model: seq.SignInLog,
         include: {
-            attributes: ['login'],
-            model: seq.User    
-            /*include: {
-                attributes: [sequelize.fn('max', sequelize.col('data')), 'max'],
-                model: seq.SignInLog,
-            }*/
+            model: seq.UserData,
+            attributes: ['name', 'city'],
+            include: {
+                model: seq.User,
+                attributes: ['login']
+            }
         }
     })
-    .then(resultUsers => {
-        var users = [];
-        for(var i = 0; i < resultUsers.length; i++){
-            users.push({
-                login: resultUsers[i].user.login,
-                name: resultUsers[i].name,
-                city: resultUsers[i].city,
-                lastSignIn: resultUsers[i].lastSignIn
-            })
-        }
-        res.send(users);
+    .then(result => {
+        res.send(result);
     })
+   
 });
 
 const getUser = ((req, res, next) => {

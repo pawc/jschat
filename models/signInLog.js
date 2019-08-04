@@ -5,15 +5,7 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        date: type.DATE,
-        userId: {
-            type: type.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'users',
-                key: 'id'
-            }
-        }
+        date: type.DATE
         },
     {
         rowFormat: 'DYNAMIC'

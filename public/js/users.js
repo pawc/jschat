@@ -9,9 +9,10 @@ function getUsers(){
         success : (result) => {
             $.each(result, (index, obj) => {
                 $('#usersTable').append('<tr>'
-                +'<td>'+isNull(obj.login)+'</td>'
-                +'<td>'+isNull(obj.name)+'</td>'
-                +'<td>'+isNull(obj.city)+'</td>'
+                +'<td>'+isNull(obj.userDatum.user.login)+'</td>'
+                +'<td>'+isNull(obj.userDatum.name)+'</td>'
+                +'<td>'+isNull(obj.userDatum.city)+'</td>'
+                +'<td>'+isNull(obj.lastSignIn.toLocaleString())+'</td>'
                 +'</tr>');
             })
         }

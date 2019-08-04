@@ -31,8 +31,7 @@ const SignInLog = signInLogModel(seq, sequelize);
 
 Message.belongsTo(User, {foreignKeyConstraint: true});
 UserData.belongsTo(User, {foreignKeyConstraint: true});
-//SignInLog.hasMany(User, {foreignKeyConstraint: true});
-//User.hasMany(Message, {foreignKeyConstraint: true});
+SignInLog.belongsTo(UserData, {foreignKeyConstraint: true});
 
 const populate = (() => {
     seq.sync({force: true})
