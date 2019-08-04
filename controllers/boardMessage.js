@@ -1,9 +1,9 @@
 var seq = require('../sequelize.js');
 var dateFormat = require('dateformat');
 
-const getMessages = ((req, res, next) => {
+const getBoardMessages = ((req, res, next) => {
 
-    seq.Message.findAll({
+    seq.BoardMessage.findAll({
         include: {
             model: seq.User,
             attributes: ['login']
@@ -25,5 +25,5 @@ const getMessages = ((req, res, next) => {
 });
 
 module.exports = {
-    getMessages
+    getBoardMessages
 }

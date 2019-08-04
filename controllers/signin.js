@@ -29,7 +29,7 @@ const signinPost = ((req, res, next) => {
                 userId: result,
                 date: new Date()
             });
-            res.redirect('/chat');
+            res.redirect('/board');
         }
         else{
             res.render('signin', {message: 'Invalid user or password. Try again.'});

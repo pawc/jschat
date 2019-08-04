@@ -27,7 +27,7 @@ $(document).ready(() => {
 function getMessages(){
 
     $.ajax({
-        url: '/getMessages',
+        url: '/getBoardMessages',
         success : (result) => {
             $.each(result, (index, obj) => {
                 $('#messageBoard').append('<div class="row">('

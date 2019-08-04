@@ -1,7 +1,7 @@
 var sequelize = require('sequelize');
 
 var userModel = require('./models/user.js');
-var messageModel = require('./models/message.js');
+var boardMessageModel = require('./models/boardMessage.js');
 var userDataModel = require('./models/userData.js');
 var signInLogModel = require('./models/signInLog');
 var privateMessageModel = require('./models/privateMessage');
@@ -26,13 +26,13 @@ const seq = new sequelize('pbdb', 'pbuser', 'pbpassword', {
 });
 
 const User = userModel(seq, sequelize);
-const Message = messageModel(seq, sequelize);
+const BoardMessage = boardMessageModel(seq, sequelize);
 const UserData = userDataModel(seq, sequelize);
 const SignInLog = signInLogModel(seq, sequelize);
 const PrivateMessage = privateMessageModel(seq, sequelize);
 
 User.hasOne(UserData);
-Message.belongsTo(User, {foreignKeyConstraint: true});
+BoardMessage.belongsTo(User, {foreignKeyConstraint: true});
 SignInLog.belongsTo(User, {foreignKeyConstraint: true});
 
 const populate = (() => {
@@ -69,19 +69,19 @@ const populate = (() => {
             city: 'Gdańsk'
         })
 
-        Message.create({
+        BoardMessage.create({
             text: 'sample message',
             date: new Date(),
             userId: 1
         })
 
-        Message.create({
+        BoardMessage.create({
             text: 'another message',
             date: new Date(),
             userId: 1
         })
 
-        Message.create({
+        BoardMessage.create({
             text: 'mod message',
             date: new Date(),
             userId: 2
@@ -102,7 +102,7 @@ const populate = (() => {
 
 module.exports = {
     User,
-    Message,
+    BoardMessage,
     UserData,
     SignInLog,
     PrivateMessage,

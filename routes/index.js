@@ -5,7 +5,7 @@ var router = express.Router();
 var signup = require('../controllers/signup.js');
 var signin = require('../controllers/signin.js');
 var signout = require('../controllers/signout');
-var message = require('../controllers/message.js');
+var boardMessage = require('../controllers/boardMessage.js');
 var profile = require('../controllers/profile.js');
 var users = require('../controllers/users');
 
@@ -15,13 +15,13 @@ router.get('/', (req, res, next) => {
 	});
 })
 
-router.get('/chat', checkLoggedIn, (req, res, next) => {
-	res.render('chat', {
+router.get('/board', checkLoggedIn, (req, res, next) => {
+	res.render('board', {
 		login: req.session.login
 	});
 });
 
-router.get('/getMessages', checkLoggedIn, message.getMessages);
+router.get('/getBoardMessages', checkLoggedIn, boardMessage.getBoardMessages);
 
 router.get('/profile', checkLoggedIn, profile.getProfile);
 router.post('/updateProfile', checkLoggedIn, profile.updateProfile);

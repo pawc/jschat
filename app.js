@@ -55,7 +55,7 @@ io.on('connection', function(client){
 
 	client.on('newMessage', (data) => {
 		console.log('message from userId: '+client.handshake.session.userId);
-		seq.Message.create({
+		seq.BoardMessage.create({
 			userId: client.handshake.session.userId,
 			text: data.message,
 			date: new Date()

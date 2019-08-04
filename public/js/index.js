@@ -14,18 +14,22 @@ $(document).ready(() => {
         setActive('profile');
     });
 
-    $("#chatLink").click(function(event){
+    $("#boardLink").click(function(event){
         event.preventDefault(); 
-        $("#content").attr("src", "/chat");
-        setActive('chat');
+        $("#content").attr("src", "/board");
+        setActive('board');
     });
+
+    $("#logoutLink").click(function(event){
+        setActive(null);
+    })
 
 });
 
 function setActive(link){
     $("#profileNav").removeClass("active");
     $("#usersNav").removeClass("active");
-    $("#chatNav").removeClass("active");
+    $("#boardNav").removeClass("active");
 
     if(link == 'users'){
         $('#usersNav').addClass("active");
@@ -35,8 +39,8 @@ function setActive(link){
         $('#profileNav').addClass("active");
     }
 
-    if(link == 'chat'){
-        $('#chatNav').addClass("active");
+    if(link == 'board'){
+        $('#boardNav').addClass("active");
     }
 
 }

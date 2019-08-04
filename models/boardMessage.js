@@ -1,5 +1,5 @@
 module.exports = (sequelize, type) => {
-    return sequelize.define('message', {
+    return sequelize.define('boardMessage', {
         id : {
             type: type.INTEGER,
             primaryKey: true,
