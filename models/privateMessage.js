@@ -5,14 +5,14 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true
         },
-        user1: {
+        sender: {
             type: type.INTEGER,
             references: {
                 model: 'users',
                 key: 'id'
             }
         },
-        user2: {
+        recipient: {
             type: type.INTEGER,
             references: {
                 model: 'users',

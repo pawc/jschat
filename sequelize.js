@@ -96,6 +96,27 @@ const populate = (() => {
             userId: 2,
             date: new Date()
         })
+
+        PrivateMessage.create({
+            sender: 1,
+            recipient: 2,
+            date: new Date(),
+            text: 'first test message from admin to moderator'
+        })
+
+        PrivateMessage.create({
+            sender: 1,
+            recipient: 2,
+            date: new Date(),
+            text: 'second test message from admin to moderator'
+        })
+
+        PrivateMessage.create({
+            sender: 2,
+            recipient: 1,
+            date: new Date(),
+            text: 'test message from moderator to admin'
+        })
     
     });
 })

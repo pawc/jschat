@@ -8,6 +8,7 @@ var signout = require('../controllers/signout');
 var boardMessage = require('../controllers/boardMessage.js');
 var profile = require('../controllers/profile.js');
 var users = require('../controllers/users');
+var privateMessage = require('../controllers/privateMessage');
 
 router.get('/', (req, res, next) => {
 	res.render('index', {
@@ -22,6 +23,7 @@ router.get('/board', checkLoggedIn, (req, res, next) => {
 });
 
 router.get('/getBoardMessages', checkLoggedIn, boardMessage.getBoardMessages);
+router.get('/getPrivateMessages', checkLoggedIn, privateMessage.getPrivateMessages);
 
 router.get('/profile', checkLoggedIn, profile.getProfile);
 router.post('/updateProfile', checkLoggedIn, profile.updateProfile);

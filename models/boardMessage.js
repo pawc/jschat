@@ -5,8 +5,8 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        text: type.STRING,
         date: type.DATE,
+        text: type.STRING
 		},
     {
         rowFormat: 'DYNAMIC'
