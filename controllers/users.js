@@ -10,7 +10,7 @@ const getUsers = ((req, res, next) => {
 const getAllUsers = ((req, res, next) => {
     seq.SignInLog.findAll({
         attributes: ['userId', [sequelize.fn('max', sequelize.col('date')), 'lastSignIn']],
-        group: ['userId'],
+        group: ['signInLog.userId', 'user.id', 'user.login', 'user->userDatum.id', 'user->userDatum.name', 'user->userDatum.city'],
         model: seq.SignInLog,
         include: {
             model: seq.User,
