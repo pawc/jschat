@@ -121,11 +121,18 @@ const populate = (() => {
     });
 })
 
+const rawQuery = ((sql) => {
+    seq.query(sql).then((results) => {
+        return results;
+    })
+})
+
 module.exports = {
     User,
     BoardMessage,
     UserData,
     SignInLog,
     PrivateMessage,
-    populate
+    populate,
+    rawQuery
 }

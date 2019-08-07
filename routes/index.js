@@ -8,6 +8,7 @@ var signout = require('../controllers/signout');
 var boardMessage = require('../controllers/boardMessage.js');
 var profile = require('../controllers/profile.js');
 var users = require('../controllers/users');
+var messages = require('../controllers/messages');
 var privateMessage = require('../controllers/privateMessage');
 
 router.get('/', (req, res, next) => {
@@ -37,6 +38,8 @@ router.post('/signup', signup.signupPost);
 
 router.get('/signin', signin.signinGet);
 router.post('/signin', signin.signinPost);
+
+router.get('/messages', checkLoggedIn, messages.messagesGet);
 
 router.get('/signout', signout.signoutGet);
 

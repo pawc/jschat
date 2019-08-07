@@ -20,6 +20,13 @@ $(document).ready(() => {
         setActive('board');
     });
 
+    $("#messagesLink").click(function(event){
+        event.preventDefault(); 
+        $("#content").attr("src", "/messages");
+        setActive('messages');
+    });
+
+
     $("#logoutLink").click(function(event){
         setActive(null);
     })
@@ -30,6 +37,7 @@ function setActive(link){
     $("#profileNav").removeClass("active");
     $("#usersNav").removeClass("active");
     $("#boardNav").removeClass("active");
+    $("#messagesNav").removeClass("active");
 
     if(link == 'users'){
         $('#usersNav').addClass("active");
@@ -41,6 +49,10 @@ function setActive(link){
 
     if(link == 'board'){
         $('#boardNav').addClass("active");
+    }
+
+    if(link == 'messages'){
+        $('#messagesNav').addClass("active");
     }
 
 }
