@@ -22,7 +22,7 @@ $(document).ready(() => {
 
     $("#messagesLink").click(function(event){
         event.preventDefault(); 
-        $("#content").attr("src", "/messages");
+        $("#content").attr("src", "/conversations");
         setActive('messages');
     });
 
