@@ -5,7 +5,7 @@ $(document).ready(() => {
         success: (privateMessages) => {
 
             $.each(privateMessages, (key, privateMessage) => {
-                $('.container').append('<p><b>'
+                $("#messages").append('<p><b>'
                     +privateMessage.date + ' '
                     +privateMessage.senderLogin + ': </b>'
                     +privateMessage.text+'</p>');
