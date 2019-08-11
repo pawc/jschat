@@ -39,7 +39,8 @@ router.post('/signup', signup.signupPost);
 router.get('/signin', signin.signinGet);
 router.post('/signin', signin.signinPost);
 
-router.get('/conversations', checkLoggedIn, conversations.conversationsGET);
+router.get('/conversations', checkLoggedIn, conversations.renderView)
+router.get('/getConversations', checkLoggedIn, conversations.getConversations);
 
 router.get('/signout', signout.signoutGet);
 

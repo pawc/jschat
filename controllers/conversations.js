@@ -1,7 +1,12 @@
 var seq = require('../sequelize.js');
 var sequelize = require('sequelize');
+var Op = sequelize.Op;
 
-const conversationsGET = ((req, res, next) => {
+const renderView = ((req, res, next) => {
+    res.render('conversations');
+})
+
+const getConversations = ((req, res, next) => {
 
     var users = [];
 
@@ -29,7 +34,18 @@ const conversationsGET = ((req, res, next) => {
                 if(!users.includes(recipients[i].recipient)) users.push(recipients[i].recipient);
             }
 
-            res.send(users);
+            seq.UserData.findAll({
+                attributes: ['name'],
+                where: {
+                    userId: {
+                        [Op.in]: users
+                    }
+                }
+            })
+            .then(userData => {
+                res.send(userData);
+            })
+
         })
 
     });
@@ -37,5 +53,6 @@ const conversationsGET = ((req, res, next) => {
 });
 
 module.exports = {
-    conversationsGET
+    renderView,
+    getConversations
 }
