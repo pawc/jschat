@@ -57,6 +57,15 @@ const populate = (() => {
             salt: salt
         });
 
+        var salt = crypto.generateSalt(16);
+        var password = crypto.sha512('guest', salt);
+        User.create({
+            id: 3,
+            login: 'guest',
+            password: password.passwordHash,
+            salt: salt
+        });
+
         UserData.create({
             userId: 1,
             name: 'Paweł',
@@ -67,6 +76,12 @@ const populate = (() => {
             userId: 2,
             name: 'Krzysiek',
             city: 'Gdańsk'
+        })
+
+        UserData.create({
+            userId: 3,
+            name: 'Marcin',
+            city: 'Warszawa'
         })
 
         BoardMessage.create({
@@ -97,6 +112,11 @@ const populate = (() => {
             date: new Date()
         })
 
+        SignInLog.create({
+            userId: 3,
+            date: new Date()
+        })
+
         PrivateMessage.create({
             sender: 1,
             recipient: 2,
@@ -116,6 +136,13 @@ const populate = (() => {
             recipient: 1,
             date: new Date(),
             text: 'test message from moderator to admin'
+        })
+
+        PrivateMessage.create({
+            sender: 3,
+            recipient: 1,
+            date: new Date(),
+            text: 'test message from guest to admin'
         })
     
     });
