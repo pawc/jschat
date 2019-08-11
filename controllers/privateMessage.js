@@ -6,6 +6,18 @@ const getMessages = ((req, res, next) => {
     var user1 = req.session.userId;
     var user2 = req.params.userId;
 
+    res.render('messages', {
+        userId: user1,
+        interlocutor: user2
+    });
+
+});
+
+const getAllMessages = ((req, res, next) => {
+
+    var user1 = req.session.userId;
+    var user2 = req.params.userId;
+
     seq.PrivateMessage.findAll({
         where: {  
             recipient: {
@@ -24,5 +36,6 @@ const getMessages = ((req, res, next) => {
 })
 
 module.exports = {
-    getMessages
+    getMessages,
+    getAllMessages
 }

@@ -18,6 +18,4 @@ $(document).ready(() => {
         }
     })
 
-    console.log(links);
-
 })
