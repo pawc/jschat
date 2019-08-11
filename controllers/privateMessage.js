@@ -28,6 +28,17 @@ const getAllMessages = ((req, res, next) => {
                 [Op.or]: [user1, user2]
             }    
         },
+        include: [{
+                model: seq.User,
+                attributes: ['login'],
+                as: 'senderId'
+            },
+            {
+                model: seq.User,
+                attributes: ['login'],
+                as: 'recipientId'
+            }
+        ],
         order: ['date']
     })
     .then(messages => {
@@ -37,6 +48,7 @@ const getAllMessages = ((req, res, next) => {
         for(var i=0; i<messages.length; i++){
             var obj = new Object();
             obj.sender = messages[i].sender;
+            obj.senderLogin = messages[i].senderId.login;
             obj.recipient = messages[i].recipient;
             obj.date = dateFormat(messages[i].date, 'yyyy-mm-dd HH:MM');
             obj.text = messages[i].text;

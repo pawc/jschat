@@ -34,6 +34,8 @@ const PrivateMessage = privateMessageModel(seq, sequelize);
 User.hasOne(UserData);
 BoardMessage.belongsTo(User, {foreignKeyConstraint: true});
 SignInLog.belongsTo(User, {foreignKeyConstraint: true});
+PrivateMessage.belongsTo(User, {as: 'senderId', foreignKey: 'sender', sourceKey: 'id'});
+PrivateMessage.belongsTo(User, {as: 'recipientId', foreignKey: 'recipient', sourceKey: 'id'});
 
 const populate = (() => {
     seq.sync({force: true})

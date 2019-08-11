@@ -7,7 +7,7 @@ $(document).ready(() => {
             $.each(privateMessages, (key, privateMessage) => {
                 $('.container').append('<p><b>'
                     +privateMessage.date + ' '
-                    +privateMessage.sender + ': </b>'
+                    +privateMessage.senderLogin + ': </b>'
                     +privateMessage.text+'</p>');
             })
         }
