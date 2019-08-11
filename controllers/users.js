@@ -30,28 +30,27 @@ const getAllUsers = ((req, res, next) => {
 const getUser = ((req, res, next) => {
     var login = req.params.login;
 
-    seq.UserData.findOne({
-        attributes: ['name', 'city'],
+    seq.User.findOne({
+        attributes: ['id', 'login'],
+        where: {
+            login: login
+        },
         include: {
-            model: seq.User,
-            attributes: ['login'],
-            where: {
-                login : login
-            }
+            model: seq.UserData,
+            attributes: ['name', 'city']
         }
     })
     .then((result) => {
         if(result){
             res.render('user', {
-                login: result.user.login,
-                name: result.name,
-                city: result.city
+                login: result.login,
+                name: result.userDatum.name,
+                city: result.userDatum.city
             });
         }
         else{
             res.sendStatus(404);
         }
-
     })
 
 });

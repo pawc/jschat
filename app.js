@@ -69,6 +69,7 @@ io.on('connection', function(client){
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var privateMessageRouter = require('./routes/privateMessage');
 
 seq.populate();
 
@@ -89,6 +90,7 @@ app.use('/socket.io-client', express.static(__dirname + '/node_modules/socket.io
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/messages', privateMessageRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

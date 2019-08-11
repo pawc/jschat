@@ -34,16 +34,16 @@ const getConversations = ((req, res, next) => {
                 if(!users.includes(recipients[i].recipient)) users.push(recipients[i].recipient);
             }
 
-            seq.UserData.findAll({
-                attributes: ['name'],
+            seq.User.findAll({
+                attributes: ['id', 'login'],
                 where: {
-                    userId: {
+                    id: {
                         [Op.in]: users
                     }
                 }
             })
-            .then(userData => {
-                res.send(userData);
+            .then(result => {
+                res.send(result);
             })
 
         })

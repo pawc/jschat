@@ -24,7 +24,6 @@ router.get('/board', checkLoggedIn, (req, res, next) => {
 });
 
 router.get('/getBoardMessages', checkLoggedIn, boardMessage.getBoardMessages);
-router.get('/getPrivateMessages', checkLoggedIn, privateMessage.getPrivateMessages);
 
 router.get('/profile', checkLoggedIn, profile.getProfile);
 router.post('/updateProfile', checkLoggedIn, profile.updateProfile);

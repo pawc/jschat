@@ -1,18 +1,10 @@
 var seq = require('../sequelize.js');
 const Op = require('sequelize').Op;
-var createError = require('http-errors');
 
-const getPrivateMessages = ((req, res, next) => {
+const getMessages = ((req, res, next) => {
 
-    var user1 = req.param('user1');
-    var user2 = req.param('user2');
-
-    if(!(req.session.userId == user1 || req.session.userId == user2)){
-        res.locals.message = 'Invalid authentication.';
-        res.locals.error = createError(401);
-        res.status(res.locals.error.status || 401);
-        res.render('error');
-    }
+    var user1 = req.session.userId;
+    var user2 = req.params.userId;
 
     seq.PrivateMessage.findAll({
         where: {  
@@ -32,5 +24,5 @@ const getPrivateMessages = ((req, res, next) => {
 })
 
 module.exports = {
-    getPrivateMessages
+    getMessages
 }
