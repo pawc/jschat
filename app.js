@@ -21,9 +21,9 @@ var session = require('express-session')({
 	secret: crypto.generateSalt(16),
 	resave: false,
 	saveUninitialized: false,
-	cookie: {
+	/*cookie: {
 		maxAge: 60000
-	}
+	}*/
 });
 
 app.use(session);
@@ -64,6 +64,19 @@ io.on('connection', function(client){
 		client.emit('newMessage', data);
     	client.broadcast.emit('newMessage', data);
 	});
+
+	client.on('newPrivateMessage', (data) => {
+		console.log('private message from user: '+data.sender+' to '+data.recipient+' : '+data.message);
+		seq.PrivateMessage.create({
+			sender: data.sender,
+			recipient: data.recipient,
+			date: new Date(),
+			text: data.message
+		})
+		data.date = dateFormat(new Date(), 'yyyy-mm-dd HH:MM');
+		client.emit('newPrivateMessage', data);
+    	client.broadcast.emit('newPrivateMessage', data);
+	})
 
 });
 
