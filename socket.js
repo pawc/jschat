@@ -5,6 +5,7 @@ module.exports = function(server, session){
     var io = require('socket.io')(server);
     var dateFormat = require('dateformat');
     var usersInChat = new Set([]);
+    var usersConnected = [];
 
     io.use(sharedSession(session, {autoSave: true}));
 
@@ -13,6 +14,10 @@ module.exports = function(server, session){
         client.on('join', function(data){
             console.log('Client '+client.handshake.session.login+' logged in.');
             usersInChat.add(client.handshake.session.login);
+            var ob = new Object();
+            ob.socketId = client.id;
+            ob.userId = client.handshake.session.userId;
+            usersConnected.push(ob);
             console.log('Users chatting: '+Array.from(usersInChat).join(' '));
             var o = new Object();
             o.message = client.handshake.session.login+' joined the chat.';
@@ -23,6 +28,16 @@ module.exports = function(server, session){
 
         client.on('disconnect', function(data){
             console.log('Client '+client.handshake.session.login+' left.');
+
+            for(var i=0, len=usersConnected.length; i<len; ++i){
+                var c = usersConnected[i];
+
+                if(c.socketId == client.id){
+                    usersConnected.splice(i,1);
+                    break;
+                }
+            }
+
             usersInChat.delete(client.handshake.session.login);
             console.log('Users chatting: '+Array.from(usersInChat).join(' '));
             var o = new Object();
@@ -33,6 +48,10 @@ module.exports = function(server, session){
 
         client.on('newMessage', (data) => {
             console.log('message from userId: '+client.handshake.session.userId);
+            console.log('users connected: ');
+            for(var i=0; i < usersConnected.length; i++){
+                console.log(i + ': ' + usersConnected[i].userId + ', ' + usersConnected[i].socketId);
+            }
             seq.BoardMessage.create({
                 userId: client.handshake.session.userId,
                 text: data.message,
@@ -53,9 +72,21 @@ module.exports = function(server, session){
             })
             data.date = dateFormat(new Date(), 'yyyy-mm-dd HH:MM');
             client.emit('newPrivateMessage', data);
+
+            var recipientSocketId = getSocketId(data.recipient)
+            if(recipientSocketId){
+                io.to(recipientSocketId).emit('newPrivateMessage', data);
+            }
             client.broadcast.emit('newPrivateMessage', data);
         })
 
     });
+
+    function getSocketId(userId){
+        for(var i=0, len=usersConnected.length; i<len; ++i){
+            var c = usersConnected[i];
+            if(c.userId == userId) return c.socketId;
+        }      
+    }
 
 };

@@ -35,8 +35,5 @@ function getMessages(){
 }
 
 function addPrivateMessage(data){
-    if((data.sender == userId || data.recipient == userId) 
-        && (data.sender == interlocutor || data.recipient == interlocutor)){
-        // append to messages div
-    }
+    console.log(data.message);
 }
