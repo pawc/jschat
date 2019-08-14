@@ -4,6 +4,10 @@ $(document).ready(() => {
 
     var socket = io.connect('http://localhost:3000');
 
+    socket.on('connect', function(data){
+    	socket.emit('join');
+    });
+
     $('#messageForm').submit(function(e){
         e.preventDefault();
         var message = $('#message').val();
@@ -35,5 +39,5 @@ function getMessages(){
 }
 
 function addPrivateMessage(data){
-    console.log(data.message);
+    if(interlocutor == data.sender || interlocutor == data.recipient) console.log(data.message);
 }

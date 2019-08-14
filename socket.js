@@ -49,9 +49,6 @@ module.exports = function(server, session){
         client.on('newMessage', (data) => {
             console.log('message from userId: '+client.handshake.session.userId);
             console.log('users connected: ');
-            for(var i=0; i < usersConnected.length; i++){
-                console.log(i + ': ' + usersConnected[i].userId + ', ' + usersConnected[i].socketId);
-            }
             seq.BoardMessage.create({
                 userId: client.handshake.session.userId,
                 text: data.message,
@@ -71,13 +68,20 @@ module.exports = function(server, session){
                 text: data.message
             })
             data.date = dateFormat(new Date(), 'yyyy-mm-dd HH:MM');
-            client.emit('newPrivateMessage', data);
 
-            var recipientSocketId = getSocketId(data.recipient)
+            for(var i=0; i < usersConnected.length; i++){
+                console.log(i + ': ' + usersConnected[i].userId + ', ' + usersConnected[i].socketId);
+            }
+
+            var senderSocketId = getSocketId(data.sender);
+            var recipientSocketId = getSocketId(data.recipient);
+
+            io.to(senderSocketId).emit('newPrivateMessage', data);
+
             if(recipientSocketId){
                 io.to(recipientSocketId).emit('newPrivateMessage', data);
             }
-            client.broadcast.emit('newPrivateMessage', data);
+            
         })
 
     });
