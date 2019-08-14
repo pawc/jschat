@@ -8,19 +8,29 @@
         <script src="/socket.io-client/socket.io.js"></script>
         <script>
             var userId = '<%= userId %>';
+            var userLogin = '<%= userLogin %>';
             var interlocutor = '<%= interlocutor %>';
+            var interlocutorLogin = '<%= interlocutorLogin %>';
         </script>
         <script src="/public/js/messages.js"></script>
     </head>
     <body>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="container" id="messages"></div>
-                <div class="container">
-                    <form id="messageForm" class="form-inline" action="#" method="POST" autocomplete="off">
-                        <input type="message" class="form-control" id="message" name="message">
-                        <button type="submit" class="btn btn-primary">Send</button>
-                    </form>
+        <div class="container">
+            <div class="row">
+             
+                <div class="col-sm-12">
+                    <div class="chatbody">
+                        <div class="panel panel-primary">
+                            <div class="panel-body msg_container_base">
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="input-group">
+                                <input id="btn-input" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." autocomplete="off"/>
+                            </div>
+                        </div>
+                    </div>
+    
                 </div>
             </div>
         </div>

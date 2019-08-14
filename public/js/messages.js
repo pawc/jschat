@@ -8,15 +8,17 @@ $(document).ready(() => {
     	socket.emit('join');
     });
 
-    $('#messageForm').submit(function(e){
-        e.preventDefault();
-        var message = $('#message').val();
-        socket.emit('newPrivateMessage', {
-            sender: userId,
-            recipient: interlocutor,
-            message: message
-        })
-        $('#message').val('');
+    $('#btn-input').keypress(function(event){
+        if(event.which == 13){
+            var message = $('#btn-input').val();
+            $('#btn-input').val('');
+            socket.emit('newPrivateMessage', {
+                sender: userId,
+                recipient: interlocutor,
+                senderLogin: userLogin,
+                text: message
+            })
+        }
     });
 
     socket.on('newPrivateMessage', addPrivateMessage);
@@ -29,15 +31,27 @@ function getMessages(){
         success: (privateMessages) => {
 
             $.each(privateMessages, (key, privateMessage) => {
-                $("#messages").append('<p><b>'
-                    +privateMessage.date + ' '
-                    +privateMessage.senderLogin + ': </b>'
-                    +privateMessage.text+'</p>');
+                addPrivateMessage(privateMessage);
             })
         }
     })
 }
 
 function addPrivateMessage(data){
-    if(interlocutor == data.sender || interlocutor == data.recipient) console.log(data.message);
+    if(interlocutor == data.sender || interlocutor == data.recipient){
+        var appendDiv = '<div class="row msg_container base_sent">\
+            <div class="col-md-12">\
+                <div class="messages msg_sent">\
+                    <p>'+data.text+'</p>\
+                    <time>'+data.date+': '+data.senderLogin+'</time>\
+                </div>\
+            </div>\
+        </div>';
+    
+        $(".msg_container_base").append(appendDiv);
+    
+        //scroll down
+        $(".msg_container_base").scrollTop($(".msg_container_base")[0].scrollHeight);
+    
+    }
 }

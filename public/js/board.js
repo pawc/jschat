@@ -10,7 +10,7 @@ $(document).ready(() => {
 
     socket.on('newMessage', addMessage);
 
-    socket.on('user', userJoinedLeft);
+    socket.on('user', addMessage);
 
     $('#btn-input').keypress(function(event){
         if(event.which == 13){
@@ -55,17 +55,3 @@ function addMessage(data){
     $(".msg_container_base").scrollTop($(".msg_container_base")[0].scrollHeight);
 
 }
-
-function userJoinedLeft(data){
-    addMessage(data);
-    //updateUsersList(data.users);
-}
-
-/*function updateUsersList(data){
-    var tab = data.split(',');
-    $('#usersList').empty();
-
-    for(var i=0; i < tab.length; i++){
-        $('#usersList').append('<li class="list-group-item">'+tab[i]+'</li>')
-    }
-}*/

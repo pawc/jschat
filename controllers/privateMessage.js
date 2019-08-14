@@ -1,15 +1,32 @@
 var seq = require('../sequelize.js');
 const Op = require('sequelize').Op;
 var dateFormat = require('dateformat');
+var createError = require('http-errors');
 
 const getMessages = ((req, res, next) => {
 
     var user1 = req.session.userId;
+    var userLogin = req.session.login;
     var user2 = req.params.userId;
 
-    res.render('messages', {
-        userId: user1,
-        interlocutor: user2
+    seq.User.findOne({
+        attributes: ['login'],
+        where: {
+            id: user2
+        }
+    })
+    .then((user) => {
+        if(user.login){
+            res.render('messages', {
+                userId: user1,
+                interlocutor: user2,
+                userLogin: userLogin,
+                interlocutorLogin: user.login
+            });
+        }
+        else{
+            next(createError(404));
+        }
     });
 
 });

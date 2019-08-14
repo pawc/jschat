@@ -4,7 +4,7 @@ module.exports = function(server, session){
     var sharedSession = require('express-socket.io-session');
     var io = require('socket.io')(server);
     var dateFormat = require('dateformat');
-    var usersInChat = new Set([]);
+    //var usersInChat = new Set([]);
     var usersConnected = [];
 
     io.use(sharedSession(session, {autoSave: true}));
@@ -13,17 +13,20 @@ module.exports = function(server, session){
         
         client.on('join', function(data){
             console.log('Client '+client.handshake.session.login+' logged in.');
-            usersInChat.add(client.handshake.session.login);
+            //usersInChat.add(client.handshake.session.login);
+
             var ob = new Object();
             ob.socketId = client.id;
             ob.userId = client.handshake.session.userId;
             usersConnected.push(ob);
-            console.log('Users chatting: '+Array.from(usersInChat).join(' '));
+
+            //console.log('Users chatting: '+Array.from(usersInChat).join(' '));
             var o = new Object();
             o.message = client.handshake.session.login+' joined the chat.';
             o.login = '-- system --';
             o.date = dateFormat(new Date(), 'yyyy-mm-dd HH:MM');
-            o.users = Array.from(usersInChat).join(',');
+            //o.users = Array.from(usersInChat).join(',');
+            
             client.emit('user', o);
             client.broadcast.emit('user', o);
         });
@@ -40,11 +43,13 @@ module.exports = function(server, session){
                 }
             }
 
-            usersInChat.delete(client.handshake.session.login);
-            console.log('Users chatting: '+Array.from(usersInChat).join(' '));
+            //usersInChat.delete(client.handshake.session.login);
+            //console.log('Users chatting: '+Array.from(usersInChat).join(' '));
             var o = new Object();
             o.message = client.handshake.session.login+' left the chat.';
-            o.users = Array.from(usersInChat).join(',');
+            o.login = '-- system --';
+            o.date = dateFormat(new Date(), 'yyyy-mm-dd HH:MM');
+            //o.users = Array.from(usersInChat).join(',');
             client.broadcast.emit('user', o);
         })
 
@@ -67,7 +72,7 @@ module.exports = function(server, session){
                 sender: data.sender,
                 recipient: data.recipient,
                 date: new Date(),
-                text: data.message
+                text: data.text
             })
             data.date = dateFormat(new Date(), 'yyyy-mm-dd HH:MM');
 
