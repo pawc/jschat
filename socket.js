@@ -21,6 +21,8 @@ module.exports = function(server, session){
             console.log('Users chatting: '+Array.from(usersInChat).join(' '));
             var o = new Object();
             o.message = client.handshake.session.login+' joined the chat.';
+            o.login = '-- system --';
+            o.date = dateFormat(new Date(), 'yyyy-mm-dd HH:MM');
             o.users = Array.from(usersInChat).join(',');
             client.emit('user', o);
             client.broadcast.emit('user', o);

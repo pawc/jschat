@@ -41,7 +41,7 @@ function getMessages(){
 function addMessage(data){
 
     var appendDiv = '<div class="row msg_container base_sent">\
-       <div class="col-md-10 col-xs-10">\
+       <div class="col-md-12">\
             <div class="messages msg_sent">\
                 <p>'+data.message+'</p>\
                 <time>'+data.date+': '+data.login+'</time>\
@@ -57,15 +57,15 @@ function addMessage(data){
 }
 
 function userJoinedLeft(data){
-    $('#messageBoard').append('<div class="row"><i>'+data.message+'</i></div>');
-    updateUsersList(data.users);
+    addMessage(data);
+    //updateUsersList(data.users);
 }
 
-function updateUsersList(data){
+/*function updateUsersList(data){
     var tab = data.split(',');
     $('#usersList').empty();
 
     for(var i=0; i < tab.length; i++){
         $('#usersList').append('<li class="list-group-item">'+tab[i]+'</li>')
     }
-}
+}*/
