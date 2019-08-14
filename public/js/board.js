@@ -12,14 +12,15 @@ $(document).ready(() => {
 
     socket.on('user', userJoinedLeft);
 
-    $('#messageForm').submit(function(e){
-        e.preventDefault();
-        var message = $('#message').val();
-        socket.emit('newMessage', {
-            login: myLogin,
-            message: message
-        });
-        $('#message').val('');
+    $('#btn-input').keypress(function(event){
+        if(event.which == 13){
+            var message = $('#btn-input').val();
+            $('#btn-input').val('');
+            socket.emit('newMessage', {
+                login: myLogin,
+                message: message
+            });
+        }
     });
 
 });
@@ -30,11 +31,7 @@ function getMessages(){
         url: '/getBoardMessages',
         success : (result) => {
             $.each(result, (index, obj) => {
-                $('#messageBoard').append('<div class="row">('
-                    +obj.date+') &nbsp;<b>'
-                    +'<a href="/users/'+obj.login+'">'+obj.login+'</a>: </b>&nbsp;'
-                    +obj.text+'</div>'
-                );
+                addMessage(obj);
             })
         }
     })
@@ -43,11 +40,19 @@ function getMessages(){
 
 function addMessage(data){
 
-    $('#messageBoard').append('<div class="row">('
-        +data.date+') &nbsp;<b>'
-        +'<a href="/users/'+data.login+'">'+data.login+'</a>: </b>&nbsp;'
-        +data.message+'</div>'
-    );
+    var appendDiv = '<div class="row msg_container base_sent">\
+       <div class="col-md-10 col-xs-10">\
+            <div class="messages msg_sent">\
+                <p>'+data.message+'</p>\
+                <time>'+data.date+': '+data.login+'</time>\
+            </div>\
+        </div>\
+    </div>';
+
+    $(".msg_container_base").append(appendDiv);
+
+    //scroll down
+    $(".msg_container_base").scrollTop($(".msg_container_base")[0].scrollHeight);
 
 }
 

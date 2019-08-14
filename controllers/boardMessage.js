@@ -15,7 +15,7 @@ const getBoardMessages = ((req, res, next) => {
         for(var i=0; i<messages.length; i++){
            var obj = new Object();
            obj.login = messages[i].user.login;
-           obj.text = messages[i].text;
+           obj.message = messages[i].text;
            obj.date = dateFormat(messages[i].date, 'yyyy-mm-dd HH:MM');
            result.push(obj);
         }
