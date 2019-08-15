@@ -4,36 +4,79 @@ module.exports = function(server, session){
     var sharedSession = require('express-socket.io-session');
     var io = require('socket.io')(server);
     var dateFormat = require('dateformat');
-    //var usersInChat = new Set([]);
     var usersConnected = [];
 
     io.use(sharedSession(session, {autoSave: true}));
 
+    var userId;
+    var login;
+
     io.on('connection', function(client){
-        
+
+        userId = client.handshake.session.userId;
+        login = client.handshake.session.login;
+
+        console.log(login + ' connected.');
+
+    });
+
+    const boardChat = io.of('/board');
+    boardChat.on('connection', (client) => {
+
         client.on('join', function(data){
-            console.log('Client '+client.handshake.session.login+' logged in.');
-            //usersInChat.add(client.handshake.session.login);
 
-            var ob = new Object();
-            ob.socketId = client.id;
-            ob.userId = client.handshake.session.userId;
-            usersConnected.push(ob);
+            console.log('Client '+login+' joined board.');
 
-            //console.log('Users chatting: '+Array.from(usersInChat).join(' '));
             var o = new Object();
-            o.message = client.handshake.session.login+' joined the chat.';
+            o.message = login+' joined the chat.';
             o.login = '-- system --';
             o.date = dateFormat(new Date(), 'yyyy-mm-dd HH:MM');
-            //o.users = Array.from(usersInChat).join(',');
             
             client.emit('user', o);
             client.broadcast.emit('user', o);
         });
 
-        client.on('disconnect', function(data){
-            console.log('Client '+client.handshake.session.login+' left.');
+        client.on('newMessage', (data) => {
 
+            seq.BoardMessage.create({
+                userId: userId,
+                text: data.message,
+                date: new Date()
+            })
+
+            data.date = dateFormat(new Date(), 'yyyy-mm-dd HH:MM');
+            client.emit('newMessage', data);
+            client.broadcast.emit('newMessage', data);
+
+        });
+
+        client.on('disconnect', function(data){
+        
+            var o = new Object();
+            o.message = login+' left the chat.';
+            o.login = '-- system --';
+            o.date = dateFormat(new Date(), 'yyyy-mm-dd HH:MM');
+            client.broadcast.emit('user', o);
+
+        })
+
+    })
+
+    const privateChat = io.of('/private');
+    privateChat.on('connection', (client) => {
+
+        client.on('join', function(data){
+
+            console.log(login + ' joined private.');
+
+            var ob = new Object();
+            ob.socketId = client.id;
+            ob.userId = userId
+            usersConnected.push(ob);
+        });
+
+        client.on('disconnect', function(data){
+            
             for(var i=0, len=usersConnected.length; i<len; ++i){
                 var c = usersConnected[i];
 
@@ -42,32 +85,10 @@ module.exports = function(server, session){
                     break;
                 }
             }
-
-            //usersInChat.delete(client.handshake.session.login);
-            //console.log('Users chatting: '+Array.from(usersInChat).join(' '));
-            var o = new Object();
-            o.message = client.handshake.session.login+' left the chat.';
-            o.login = '-- system --';
-            o.date = dateFormat(new Date(), 'yyyy-mm-dd HH:MM');
-            //o.users = Array.from(usersInChat).join(',');
-            client.broadcast.emit('user', o);
-        })
-
-        client.on('newMessage', (data) => {
-            console.log('message from userId: '+client.handshake.session.userId);
-            console.log('users connected: ');
-            seq.BoardMessage.create({
-                userId: client.handshake.session.userId,
-                text: data.message,
-                date: new Date()
-            })
-            data.date = dateFormat(new Date(), 'yyyy-mm-dd HH:MM');
-            client.emit('newMessage', data);
-            client.broadcast.emit('newMessage', data);
         });
 
         client.on('newPrivateMessage', (data) => {
-            console.log('private message from user: '+data.sender+' to '+data.recipient+' : '+data.message);
+
             seq.PrivateMessage.create({
                 sender: data.sender,
                 recipient: data.recipient,
@@ -76,17 +97,17 @@ module.exports = function(server, session){
             })
             data.date = dateFormat(new Date(), 'yyyy-mm-dd HH:MM');
 
-            for(var i=0; i < usersConnected.length; i++){
+            /*for(var i=0; i < usersConnected.length; i++){
                 console.log(i + ': ' + usersConnected[i].userId + ', ' + usersConnected[i].socketId);
-            }
+            }*/
 
             var senderSocketId = getSocketId(data.sender);
             var recipientSocketId = getSocketId(data.recipient);
 
-            io.to(senderSocketId).emit('newPrivateMessage', data);
+            io.of('/private').to(senderSocketId).emit('newPrivateMessage', data);
 
             if(recipientSocketId){
-                io.to(recipientSocketId).emit('newPrivateMessage', data);
+                io.of('private').to(recipientSocketId).emit('newPrivateMessage', data);
             }
             
         })
