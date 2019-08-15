@@ -9,6 +9,10 @@ const getMessages = ((req, res, next) => {
     var userLogin = req.session.login;
     var user2 = req.params.userId;
 
+    if(user1 == user2){
+        next(createError(400));
+    }
+
     seq.User.findOne({
         attributes: ['login'],
         where: {

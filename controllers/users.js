@@ -32,7 +32,7 @@ const getUsersLike = ((req, res, next) => {
     var login = req.query.login;
 
     seq.User.findAll({
-        attributes: ['login'],
+        attributes: ['id', 'login'],
         where: {
             login: {
                 [Op.like]: login + '%'

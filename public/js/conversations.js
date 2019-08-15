@@ -11,30 +11,20 @@ $(document).ready(() => {
         }
     })
 
-    $.ajax({
-        url: '/getUsersLike',
-        data: {
-            login: ''
-        },
-        success: (logins) => {
-            var data = [];
-
-            $.each(logins, (i, o) => {
-                data.push(o.login);
-            });
-
-            var options = {
-                data,
-                list: {
-                    onChooseEvent: function(){
-                        alert($('.searchInput').getSelectedItemData());
-                    }
-                }
-            };
-    
-            $('.searchInput').easyAutocomplete(options);
-
+    var options = {
+        url: 'getUsersLike?login=',
+        getValue: 'login',
+        list: {
+            match: {
+                enabled: true
+            },
+            onChooseEvent: function(){
+                var interlocutorId = $('.searchInput').getSelectedItemData().id
+                window.location.replace('/messages/'+interlocutorId);
+            }
         }
-    })
+    };
+
+    $('.searchInput').easyAutocomplete(options);
 
 })
