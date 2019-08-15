@@ -45,6 +45,7 @@ app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 app.use('/popper', express.static(__dirname + '/node_modules/popper.js/dist/'));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'));
 app.use('/socket.io-client', express.static(__dirname + '/node_modules/socket.io-client/dist/'));
+app.use('/easy-autocomplete', express.static(__dirname + '/node_modules/easy-autocomplete/dist/'));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

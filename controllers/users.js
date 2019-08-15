@@ -1,5 +1,6 @@
 var seq = require('../sequelize');
 var sequelize = require('sequelize');
+var Op = sequelize.Op;
 
 const getUsers = ((req, res, next) => {
     res.render('users', {
@@ -25,6 +26,22 @@ const getAllUsers = ((req, res, next) => {
         res.send(result);
     })
    
+});
+
+const getUsersLike = ((req, res, next) => {
+    var login = req.query.login;
+
+    seq.User.findAll({
+        attributes: ['login'],
+        where: {
+            login: {
+                [Op.like]: login + '%'
+            }
+        }
+    })
+    .then((logins) => {
+        res.send(logins);
+    })
 });
 
 const getUser = ((req, res, next) => {
@@ -56,7 +73,8 @@ const getUser = ((req, res, next) => {
 });
 
 module.exports = {
+    getUser,
     getUsers,
     getAllUsers,
-    getUser
+    getUsersLike
 }

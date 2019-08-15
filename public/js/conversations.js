@@ -5,8 +5,34 @@ $(document).ready(() => {
         success: (users) => {
 
             $.each(users, (key, value) => {
-                $('.container').append('<p><a href="/messages/'+value.id+'" id="'+value.id+'">'+value.login+'</a></p>');
+                $('.conversations').append('<p><a href="/messages/'+value.id+'" id="'+value.id+'">'+value.login+'</a></p>');
             })
+
+        }
+    })
+
+    $.ajax({
+        url: '/getUsersLike',
+        data: {
+            login: ''
+        },
+        success: (logins) => {
+            var data = [];
+
+            $.each(logins, (i, o) => {
+                data.push(o.login);
+            });
+
+            var options = {
+                data,
+                list: {
+                    onChooseEvent: function(){
+                        alert($('.searchInput').getSelectedItemData());
+                    }
+                }
+            };
+    
+            $('.searchInput').easyAutocomplete(options);
 
         }
     })
