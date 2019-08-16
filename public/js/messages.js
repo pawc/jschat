@@ -12,12 +12,14 @@ $(document).ready(() => {
         if(event.which == 13){
             var message = $('#btn-input').val();
             $('#btn-input').val('');
-            socket.emit('newPrivateMessage', {
-                sender: userId,
-                recipient: interlocutor,
-                senderLogin: userLogin,
-                text: message
-            })
+            if(message){
+                socket.emit('newPrivateMessage', {
+                    sender: userId,
+                    recipient: interlocutor,
+                    senderLogin: userLogin,
+                    text: message
+                })
+            }
         }
     });
 
