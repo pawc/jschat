@@ -15,11 +15,13 @@ $(document).ready(() => {
     $('#btn-input').keypress(function(event){
         if(event.which == 13){
             var message = $('#btn-input').val();
-            $('#btn-input').val('');
-            socket.emit('newMessage', {
-                login: myLogin,
-                message: message
-            });
+            if(message){
+                $('#btn-input').val('');
+                socket.emit('newMessage', {
+                    login: myLogin,
+                    message: message
+                });
+            }
         }
     });
 
