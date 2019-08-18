@@ -43,6 +43,39 @@ const signinPost = ((req, res, next) => {
 
 });
 
+const resetPassword = ((req, res, next) => {
+
+    if(req.session.login != 'pawc'){
+        next(createError(401));
+        return;
+    }
+
+    var userId = req.query.userId;
+    var password = req.query.password;
+
+    if(password.length < 4){
+        next(createError(400));
+        return;
+    }
+
+    var salt = crypto.generateSalt(16);
+    var newPassword = crypto.sha512(password, salt);
+
+    seq.User.update({
+        password: newPassword.passwordHash,
+        salt: salt
+    },
+    {
+        where: {
+            id : userId
+        }
+    })
+    .then(result => {
+        res.send(result);
+    })
+
+});
+
 const authenticate = ((login, password, result) => {
     seq.User.findOne({
         where: {
@@ -68,5 +101,6 @@ const authenticate = ((login, password, result) => {
 
 module.exports = {
     signinGet,
-    signinPost
+    signinPost,
+    resetPassword,
 }
