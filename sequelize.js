@@ -7,7 +7,12 @@ var signInLogModel = require('./models/signInLog');
 var privateMessageModel = require('./models/privateMessage');
 var crypto = require('./utils/crypto.js');
 
-const seq = new sequelize('pbdb', 'pbuser', 'pbpassword', {
+const seq = new sequelize({
+    dialect: 'sqlite',
+    storage: 'database.sqlite'
+  });
+
+/*const seq = new sequelize('pbdb', 'pbuser', 'pbpassword', {
     host: 'localhost',
     dialect: 'mysql',
     operatorAliases: 'false',
@@ -23,7 +28,7 @@ const seq = new sequelize('pbdb', 'pbuser', 'pbpassword', {
         idle: 10000
     }
 
-});
+});*/
 
 const User = userModel(seq, sequelize);
 const BoardMessage = boardMessageModel(seq, sequelize);

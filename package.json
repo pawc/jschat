@@ -24,6 +24,7 @@
     "popper.js": "^1.15.0",
     "sequelize": "^5.8.1",
     "socket.io": "^2.2.0",
+    "sqlite3": "^5.0.0",
     "tedious": "^6.2.0"
   }
 }
